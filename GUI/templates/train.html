@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <!-- <link rel="stylesheet" href="index.css">  -->
+    <title>Train</title>
+</head>
+<body>
+	<div align="middle"> 
+		<img src="{{ image }}" align="middle" style = "max-width:40%;max-height:40%;"> 
+	</div>
+
+	<div align="middle">
+		<audio controls autoplay> <source src={{label}} type="audio/wav"> </audio> 
+	</div>
+	<br><br><br>
+	<div align="middle">
+		<form action="/train" method="post">
+	    	<input type="submit" name="next" value="Proceed"> 
+	    </form>
+    </div>
+    <!-- 
+    <div align="middle">
+    	<form action="/train" method="post">
+    		<input type="submit" name="test" value="Proceed" {{proceed}}> 
+    	</form>
+    </div> -->
+	<!-- <div style="float:left"> <img src="{{ user_image }}" align="middle"> </div> -->
+
+</body>
+</html>

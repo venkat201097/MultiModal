@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <!-- <link rel="stylesheet" href="index.css">  -->
+    <title>Test</title>
+</head>
+<body>
+	<h1 align="middle"> Select the corresponding {% if retrieve=='i' %} image{%else: %}audio{% endif %}: </h1>
+	{% if retrieve=='i' %}
+
+		<div align="middle"> 
+			<audio controls> <source src={{label}} type="audio/wav"> </audio> 
+		</div>
+		
+		<form action="/test" method="post" name="{{label}}"> 
+			<div style="padding-top:50px">
+				{% for i in samples %}
+					<input type="image" src="{{ i }}" name="{{ i.split('_')[0].split('/')[-1] }}" style = "max-width:20%;max-height:20%;border-style:solid;float:left;margin:5px"">
+				{% endfor %}
+			</div>
+		</form>
+		
+
+	{%else: %}
+	<div>
+		<div style="float:left;padding-left:5%"> 
+			<img src="{{ label }}" align="middle" style = "max-width:40%;max-height:40%;"> 
+		<div style="float:right;padding-top:5%;padding-right:20%">
+			<form action="/test" method="post" name="{{label}}"> 
+				{% for i in samples %}
+				<div>
+					<div style="float:left;padding:30px"><input style="height:40px" type="submit" name="{{ i.split('_')[1].split('/')[-1] }}" value="{{samples.index(i)+1}}"></div>
+
+					<div style="float:right;padding:30px;"><audio controls> <source src="{{ i }}" type="audio/wav"> </audio></div>
+				<!-- <input type="radio" name ="label" value="{{ i.split('_')[1].split('/')[-1] }}" > <div align="middle">  -->
+				</div>
+				{% endfor %}
+				<!-- <input type="submit" name="submit" value="Submit"> -->
+			</form>
+		</div>
+		</div>
+		
+	</div>
+
+	{% endif %}
+
+</body>
+</html>
