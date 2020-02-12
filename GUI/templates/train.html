@@ -3,18 +3,42 @@
 <head>
 	 <!-- <link rel="stylesheet" href="index.css">  -->
     <title>Train</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    	var playcount = -1;
+    	var timespent = 0;
+
+    	function numCount(){
+    		playcount += 1;
+    		var el = document.getElementById('playcount');
+    		el.value = playcount;
+		}
+
+		function loaded(){
+			timespent = new Date().getTime();
+			var el = document.getElementById('junk');
+			numCount();
+		}
+		function submitted(){
+			document.getElementById('timespent').value = (new Date().getTime() - timespent)/1000;
+			return true;
+		}
+
+	</script>
 </head>
-<body>
+<body onload="loaded()">
 	<div align="middle"> 
 		<img src="{{ image }}" align="middle" style = "max-width:40%;max-height:40%;"> 
 	</div>
 
 	<div align="middle">
-		<audio controls autoplay> <source src={{label}} type="audio/wav"> </audio> 
+		<audio controls autoplay onplay="numCount()"> <source src={{label}} type="audio/wav"> </audio> 
 	</div>
 	<br><br><br>
 	<div align="middle">
-		<form action="/train" method="post">
+		<form action="/traininfo" method="post" id="next" onSubmit = "return submitted()">
+			<input name="playcount" id="playcount" hidden>
+			<input name="timespent" id="timespent" hidden></h2>
 	    	<input type="submit" name="next" value="Proceed"> 
 	    </form>
     </div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <!-- <link rel="stylesheet" href="index.css">  -->
+    <title>Score</title>
+
+    <script>
+		// Set the date we're counting down to
+		var countDownDate = new Date().getTime()+300000;
+
+		// Update the count down every 1 second
+		var x = setInterval(function() {
+
+		  // Get today's date and time
+		  var now = new Date().getTime();
+		    
+		  // Find the distance between now and the count down date
+		  var distance = countDownDate - now;
+		    
+		  // Time calculations for days, hours, minutes and seconds
+		  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		    
+		  // Output the result in an element with id="demo"
+		  document.getElementById("demo").innerHTML = "BREAK: " + minutes + "m " + seconds + "s ";
+		    
+		  // If the count down is over, write some text 
+		  if (distance < 0) {
+		    clearInterval(x);
+		    document.getElementById("demo").innerHTML = "";
+		    document.getElementById("proceed").style.visibility = "visible";
+		  }
+		}, 1000);
+	</script>
+
+
+</head>
+<body>
+	<h1 align="middle"> SCORES </h1> <br>
+	<h2 align="middle"> Image Retrieval : {{score_i}}/{% if session in [1,4] %}20{% else: %}10{% endif %}</h2><br>
+	<h2 align="middle"> Audio Retrieval : {{score_a}}/{% if session in [1,4] %}20{% else: %}10{% endif %}</h2><br>
+	<div align="middle">
+		<form action='/score' method=post>
+			<h3 id="demo" align="middle"></h3>
+			<input type=submit name="{{sess_type}}" value="PROCEED" id="proceed" align="middle" style="visibility:hidden">
+		</form>
+	</div>
+	
+	
+
+</body>
+</html>

@@ -5,21 +5,26 @@
     <title>Home</title>
 </head>
 <body>
-	<h1 align="middle"> EXPERIMENT </h1> <br>
+	<h1 align="middle"> MULTI-MODAL LEARNING EXPERIMENT </h1> <br>
 	<h2>Instructions: </h2><br>
-	1) 10 sessions of training and testing <br>
-	2) In each session you will learn 10 novel image labels <br>
-	3) You will betested to retrieve an image given the label, and vice-versa <br>
+	1) There will be 6 sessions with training and testing phases. <br><br>
+	2) In each session, you will learn 10 novel images and their corresponding audio labels. You may be shown 1,2 or 3 samples of an image-audio pair. <br><br>
+	3) After training, you will be tested to retrieve the correct image given the audio label, and vice-versa. <br><br>
+	4) Image retrieval - Given a test audio sample, click the corresponding image from the given 10. <br><br>
+	5) Audio retrieval - Given a test image sample, listen to the 10 given audio files and click the corresponding one. <br><br>
+	<h3> Please scroll down during testing so that you don't miss any image/audio option. </h3> <br><br>
 
 	<h2> Please fill in your personal details before we proceed to the experiment: </h2>
 	<form action="/info" method="post">
+		Subject ID: <br>
+		<input type=text name=id required><br><br>
 		Full name: <br>
-		<input type=text name=name required>
+		<input type=text name=name required><br><br>
 		Gender: <br>
 		<input type=radio name=gender value=M> Male <br>
-		<input type=radio name=gender value=F checked> Female <br>
+		<input type=radio name=gender value=F checked> Female <br><br>
 		E-mail:<br>
-		<input type=email name=email required><br>
+		<input type=email name=email required><br><br>
 		<input type=submit value="Submit and Proceed">
 	</form>
 	

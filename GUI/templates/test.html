@@ -5,6 +5,7 @@
     <title>Test</title>
 </head>
 <body>
+	<h1 align="left"> {{index}}) <h1>
 	<h1 align="middle"> Select the corresponding {% if retrieve=='i' %} image{%else: %}audio{% endif %}: </h1>
 	{% if retrieve=='i' %}
 
@@ -28,10 +29,10 @@
 		<div style="float:right;padding-top:5%;padding-right:20%">
 			<form action="/test" method="post" name="{{label}}"> 
 				{% for i in samples %}
-				<div>
+				<div style="background-color:blue;margin-bottom:10px">
 					<div style="float:left;padding:30px"><input style="height:40px" type="submit" name="{{ i.split('_')[1].split('/')[-1] }}" value="{{samples.index(i)+1}}"></div>
 
-					<div style="float:right;padding:30px;"><audio controls> <source src="{{ i }}" type="audio/wav"> </audio></div>
+					<div style="float:left;padding:30px;"><audio controls> <source src="{{ i }}" type="audio/wav"> </audio></div>
 				<!-- <input type="radio" name ="label" value="{{ i.split('_')[1].split('/')[-1] }}" > <div align="middle">  -->
 				</div>
 				{% endfor %}
