@@ -68,7 +68,7 @@ def home():
 @app.route('/info',methods=['GET','POST'])
 def info():
 	with open('static/Data/subjects.csv','a+') as fp:
-		fp.write('{},{},{},{}\n'.format(request.form['id'],request.form['name'],request.form['gender'],request.form['email']))
+		fp.write('{},{},{},{},{}\n'.format(request.form['id'],request.form['name'],request.form['age'],request.form['gender'],request.form['email']))
 	global sub_id
 	sub_id = request.form['id']
 
