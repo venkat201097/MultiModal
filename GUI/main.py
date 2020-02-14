@@ -69,7 +69,6 @@ def storetest(form_dict):
 def home():
 	global bucket, buckets, retrieve
 	buckets = random.sample(range(NUM_BUCKETS),NUM_BUCKETS)
-	print(buckets)
 	bucket = 0
 	retrieve = 'i'
 	return render_template("index.html")
