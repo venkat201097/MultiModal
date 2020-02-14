@@ -11,19 +11,26 @@ app.config['UPLOAD_FOLDER'] = 'static'
 # app.config['UPLOAD_FOLDER'] = 'static'
  
 def traingenerator():
-	for sample in train_data[bucket]:
+	curr_bucket = buckets[bucket]
+	
+	for i in range(bucket2shot[curr_bucket]):
+		train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET] = random.sample(train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET],CLASSES_PER_BUCKET)
+	
+	for sample in train_data[curr_bucket]:
 		yield sample
 
 def testgenerator():
 	global retrieve
+	curr_bucket = buckets[bucket]
+
 	i = 0
 	retrieve = 'i'
-	for sample in random.sample(testaud[bucket],len(testaud[bucket])):
+	for sample in random.sample(testaud[curr_bucket],len(testaud[curr_bucket])):
 		i+=1
 		yield sample,i
 	i = 0
 	retrieve = 'a'
-	for sample in random.sample(testimg[bucket],len(testimg[bucket])):
+	for sample in random.sample(testimg[curr_bucket],len(testimg[curr_bucket])):
 		i+=1
 		yield sample,i
 
@@ -56,14 +63,19 @@ def storetest(form_dict):
 				responseid = i
 	global sub_id
 	with open('static/Data/S{}/test.csv'.format(sub_id),'a+') as fp:
-		fp.write('{},{},{},{},{},{},{},{}\n'.format(bucket,retrieve,sample,sampleid,label,labelid,response,responseid))
+		fp.write('{},{},{},{},{},{},{},{}\n'.format(buckets[bucket],retrieve,sample,sampleid,label,labelid,response,responseid))
 
 @app.route('/')
 def home():
-	global bucket,retrieve
+	global bucket, buckets, retrieve
+	buckets = random.sample(range(NUM_BUCKETS),NUM_BUCKETS)
+	print(buckets)
 	bucket = 0
 	retrieve = 'i'
 	return render_template("index.html")
+
+def temp():
+	print('scurr bucket: ',buckets[bucket])
 
 @app.route('/info',methods=['GET','POST'])
 def info():
@@ -82,6 +94,7 @@ def info():
 		fp.write('Session,Sample,Sample_Id,Label,Label_Id,PlayCount,Time\n')
 
 	global train_bucket
+	temp()
 	train_bucket = traingenerator()
 	return render_template('safety.html', session=bucket,sess_type="train")
 
@@ -110,7 +123,7 @@ def train():
 			sample = trainsample[0].split('_')[0].split('/')[-1]
 			labelid = trainsample[1]
 			label = trainsample[1].split('_')[1].split('/')[-1]
-			fp.write('{},{},{},{},{},'.format(bucket,sample,sampleid,label,labelid))
+			fp.write('{},{},{},{},{},'.format(buckets[bucket],sample,sampleid,label,labelid))
 	except:
 		global test_bucket
 		test_bucket = testgenerator()
@@ -120,6 +133,7 @@ def train():
 @app.route('/score',methods=['GET','POST'])
 def score():
 	if bucket==NUM_BUCKETS:
+	# if len(buckets)==0:
 		return render_template('end.html')
 	return render_template('safety.html', session=bucket,sess_type="train")
 
@@ -135,7 +149,9 @@ def test():
 	except:
 		global bucket
 		bucket+=1
+		# bucket = buckets.pop()
 		if bucket<NUM_BUCKETS:
+		# if len(buckets)>0:
 			global train_bucket
 			train_bucket = traingenerator()
 		global sub_id
@@ -156,9 +172,10 @@ def test():
 if __name__ == "__main__":
 	CLASSES_PER_BUCKET = 10
 	NUM_BUCKETS = 6
+	buckets = random.sample(range(NUM_BUCKETS),NUM_BUCKETS)
 	bucket = 0
 	retrieve = 'i'
-
+	bucket2shot = [1,2,3,1,2,3]
 	testsample=None
 	test_bucket = None
 	train_bucket = None
