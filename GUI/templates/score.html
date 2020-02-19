@@ -6,7 +6,7 @@
 
     <script>
 		// Set the date we're counting down to
-		var countDownDate = new Date().getTime()+300000;
+		var countDownDate = new Date().getTime()+180000;
 
 		// Update the count down every 1 second
 		var x = setInterval(function() {
@@ -37,8 +37,8 @@
 </head>
 <body>
 	<h1 align="middle"> SCORES </h1> <br>
-	<h2 align="middle"> Image Retrieval : {{score_i}}/{% if session in [1,4] %}20{% else: %}10{% endif %}</h2><br>
-	<h2 align="middle"> Audio Retrieval : {{score_a}}/{% if session in [1,4] %}20{% else: %}10{% endif %}</h2><br>
+	<h2 align="middle"> Image Retrieval : {{score_i}}</h2><br>
+	<h2 align="middle"> Audio Retrieval : {{score_a}}</h2><br>
 	<div align="middle">
 		<form action='/score' method=post>
 			<h3 id="demo" align="middle"></h3>
