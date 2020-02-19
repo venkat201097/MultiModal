@@ -155,7 +155,8 @@ def test():
 			train_bucket = traingenerator()
 		global sub_id
 		responses = pd.read_csv('static/Data/S{}/test.csv'.format(sub_id))
-		curr_resp = responses[responses['Session']==(bucket-1)]
+		curr_resp = responses[responses['Session']==(buckets[bucket-1])]
+		num_test = {'i':0,'a':0}
 		# print(bucket-1)
 		# print(curr_resp)
 		scores = {'i':0,'a':0}
@@ -163,7 +164,8 @@ def test():
 			if x['Label']==x['Response']:
 				# print('yes')
 				scores[x['Test_Phase']]+=1
-		return render_template('score.html',session=bucket,sess_type="train",score_i=scores['i'],score_a=scores['a'])
+			num_test[x['Test_Phase']]+=1
+		return render_template('score.html',session=bucket,sess_type="train",score_i='{}/{}'.format(scores['i'],num_test['i']),score_a='{}/{}'.format(scores['a'],num_test['a']))
 			# return render_template('safety.html', session=bucket,sess_type="train")
 
 	return render_template("test.html", samples= testsample[1:],label=testsample[0],retrieve=retrieve,index=curr_index)
