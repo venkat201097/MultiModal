@@ -73,9 +73,6 @@ def home():
 	retrieve = 'i'
 	return render_template("index.html")
 
-def temp():
-	print('scurr bucket: ',buckets[bucket])
-
 @app.route('/info',methods=['GET','POST'])
 def info():
 	with open('static/Data/subjects.csv','a+') as fp:
@@ -93,7 +90,6 @@ def info():
 		fp.write('Session,Sample,Sample_Id,Label,Label_Id,PlayCount,Time\n')
 
 	global train_bucket
-	temp()
 	train_bucket = traingenerator()
 	return render_template('safety.html', session=bucket,sess_type="train")
 
