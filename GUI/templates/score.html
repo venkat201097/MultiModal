@@ -6,7 +6,7 @@
 
     <script>
 		// Set the date we're counting down to
-		{% if session==1 %}
+		{% if session==1 or session==7%}
 		var countDownDate = new Date().getTime()
 		{%else:%}
 		var countDownDate = new Date().getTime()+90000;
