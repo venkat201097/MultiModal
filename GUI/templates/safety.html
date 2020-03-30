@@ -5,7 +5,7 @@
     <title>Safety Slide</title>
 </head>
 <body>
-	<h1 align="middle"> SESSION {{session+1}} : {{sess_type.upper()}}ING </h1> <br>
+	<h1 align="middle"> {% if session==0 %} PRACTICE SESSION {%else:%} SESSION {{session}} {%endif%}: {{sess_type.upper()}}ING </h1> <br>
 	<div align="middle">
 		<form action='/{{sess_type}}' method=post>
 			<input type=submit name="{{sess_type}}" value="PROCEED" align="middle">

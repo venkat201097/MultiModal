@@ -3,21 +3,34 @@
 <head>
 	 <!-- <link rel="stylesheet" href="index.css">  -->
     <title>Test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+    	var timespent = 0;
+		function loaded(){
+			timespent = new Date().getTime();
+		}
+		function submitted(){
+			document.getElementById('timespent').value = (new Date().getTime() - timespent)/1000;
+			return true;
+		}
+
+	</script>
 </head>
-<body>
+<body onload="loaded()">
 	<h1 align="left"> {{index}}) <h1>
-	<h1 align="middle"> Select the corresponding {% if retrieve=='i' %} image{%else: %}audio{% endif %}: </h1>
+	<h1 align="middle"> Select the corresponding {% if retrieve=='i' %} image{%else: %}audio{% endif %}: </h1><div align="middle">(Scroll down for all options)</div>
 	{% if retrieve=='i' %}
 
 		<div align="middle"> 
 			<audio controls> <source src={{label}} type="audio/wav"> </audio> 
 		</div>
 		
-		<form action="/test" method="post" name="{{label}}"> 
+		<form action="/test" method="post" name="{{label}}" onSubmit = "return submitted()"> 
 			<div style="padding-top:50px">
 				{% for i in samples %}
 					<input type="image" src="{{ i }}" name="{{ i.split('_')[0].split('/')[-1] }}" style = "max-width:20%;max-height:20%;border-style:solid;float:left;margin:5px"">
 				{% endfor %}
+				<input name="timespent" id="timespent" hidden></h2>
 			</div>
 		</form>
 		
@@ -27,7 +40,7 @@
 		<div style="float:left;padding-left:5%"> 
 			<img src="{{ label }}" align="middle" style = "max-width:40%;max-height:40%;"> 
 		<div style="float:right;padding-top:5%;padding-right:20%">
-			<form action="/test" method="post" name="{{label}}"> 
+			<form action="/test" method="post" name="{{label}}" onSubmit = "return submitted()"> 
 				{% for i in samples %}
 				<div style="background-color:blue;margin-bottom:10px">
 					<div style="float:left;padding:30px"><input style="height:40px" type="submit" name="{{ i.split('_')[1].split('/')[-1] }}" value="{{samples.index(i)+1}}"></div>
@@ -36,6 +49,7 @@
 				<!-- <input type="radio" name ="label" value="{{ i.split('_')[1].split('/')[-1] }}" > <div align="middle">  -->
 				</div>
 				{% endfor %}
+				<input name="timespent" id="timespent" hidden></h2>
 				<!-- <input type="submit" name="submit" value="Submit"> -->
 			</form>
 		</div>

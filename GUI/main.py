@@ -12,9 +12,9 @@ app.config['UPLOAD_FOLDER'] = 'static'
  
 def traingenerator():
 	curr_bucket = buckets[bucket]
-	
-	for i in range(bucket2shot[curr_bucket]):
-		train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET] = random.sample(train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET],CLASSES_PER_BUCKET)
+	if curr_bucket>0:
+		for i in range(bucket2shot[curr_bucket]):
+			train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET] = random.sample(train_data[curr_bucket][i*CLASSES_PER_BUCKET:i*CLASSES_PER_BUCKET+CLASSES_PER_BUCKET],CLASSES_PER_BUCKET)
 	
 	for sample in train_data[curr_bucket]:
 		yield sample
@@ -37,6 +37,7 @@ def testgenerator():
 def storetest(form_dict):
 	global testsample
 	global retrieve
+	timespent = form_dict['timespent']
 	if retrieve=='i':
 		response = list(form_dict)[0][:4]
 		sample = testsample[0].split('_')[1].split('/')[-1]
@@ -63,12 +64,12 @@ def storetest(form_dict):
 				responseid = i
 	global sub_id
 	with open('static/Data/S{}/test.csv'.format(sub_id),'a+') as fp:
-		fp.write('{},{},{},{},{},{},{},{}\n'.format(buckets[bucket],retrieve,sample,sampleid,label,labelid,response,responseid))
+		fp.write('{},{},{},{},{},{},{},{},{}\n'.format(buckets[bucket],retrieve,sample,sampleid,label,labelid,response,responseid,timespent))
 
 @app.route('/')
 def home():
 	global bucket, buckets, retrieve
-	buckets = random.sample(range(NUM_BUCKETS),NUM_BUCKETS)
+	buckets = [0]+random.sample(range(1,NUM_BUCKETS),NUM_BUCKETS-1)
 	#buckets = [0,5,4,2,1,3]	
 	bucket = 0
 	retrieve = 'i'
@@ -85,7 +86,7 @@ def info():
 		os.system('mkdir '+'static/Data/S'+request.form['id'])
 
 	with open('static/Data/S{}/test.csv'.format(sub_id),'w+') as fp:
-		fp.write('Session,Test_Phase,Sample,Sample_Id,Label,Label_Id,Response,Response_Id\n')
+		fp.write('Session,Test_Phase,Sample,Sample_Id,Label,Label_Id,Response,Response_Id,Time\n')
 
 	with open('static/Data/S{}/train.csv'.format(sub_id),'w+') as fp:
 		fp.write('Session,Sample,Sample_Id,Label,Label_Id,PlayCount,Time\n')
@@ -169,20 +170,20 @@ def test():
 
 if __name__ == "__main__":
 	CLASSES_PER_BUCKET = 10
-	NUM_BUCKETS = 6
+	NUM_BUCKETS = 7
 	buckets = random.sample(range(NUM_BUCKETS),NUM_BUCKETS)
 	bucket = 0
 	retrieve = 'i'
-	bucket2shot = [1,2,3,1,2,3]
+	bucket2shot = [2,1,2,3,1,2,3]
 	testsample=None
 	test_bucket = None
 	train_bucket = None
 
-	img2lab = pickle.load(open('static/pickles/img2lab.pkl','rb'))
+	img2lab = pickle.load(open('static/pickles/img2lab_p.pkl','rb'))
 	lab2img = {j:i for i,j in img2lab.items()}
 
-	train_data = pickle.load(open('static/pickles/train.pkl','rb'))
-	testimg = pickle.load(open('static/pickles/imgtest.pkl','rb'))
-	testaud = pickle.load(open('static/pickles/audtest.pkl','rb'))
+	train_data = pickle.load(open('static/pickles/train_p.pkl','rb'))
+	testimg = pickle.load(open('static/pickles/imgtest_p.pkl','rb'))
+	testaud = pickle.load(open('static/pickles/audtest_p.pkl','rb'))
 
 	app.run(debug=True)

@@ -6,8 +6,11 @@
 
     <script>
 		// Set the date we're counting down to
+		{% if session==1 %}
+		var countDownDate = new Date().getTime()
+		{%else:%}
 		var countDownDate = new Date().getTime()+90000;
-
+		{%endif%}
 		// Update the count down every 1 second
 		var x = setInterval(function() {
 
@@ -27,7 +30,12 @@
 		  // If the count down is over, write some text 
 		  if (distance < 0) {
 		    clearInterval(x);
-		    document.getElementById("demo").innerHTML = "";
+		    	{% if session==1 %}
+			document.getElementById("demo").innerHTML = "Please proceed to the main experiment. Reminder: There will be 10 novel objects per Session.<br>All the best!";
+			{%else:%}
+			document.getElementById("demo").innerHTML = "";
+			{%endif%}
+		    
 		    document.getElementById("proceed").style.visibility = "visible";
 		  }
 		}, 1000);

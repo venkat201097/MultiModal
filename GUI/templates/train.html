@@ -27,10 +27,15 @@
 	</script>
 </head>
 <body onload="loaded()">
+	{%if image[-10]=='p'%}
+		<br><br><br><br>
+	{%endif%}
 	<div align="middle"> 
-		<img src="{{ image }}" align="middle" style = "max-width:40%;max-height:40%;"> 
+		<img src="{{ image }}" align="middle"  style = "max-width:40%;max-height:40%;" > 
 	</div>
-
+	{%if image[-10]=='p'%}
+		<br><br><br><br><br>
+	{%endif%}
 	<div align="middle">
 		<audio controls onplay="numCount()"> <source src={{label}} type="audio/wav"> </audio> 
 	</div>
