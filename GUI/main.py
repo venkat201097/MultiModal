@@ -71,7 +71,7 @@ def home():
 	global bucket, buckets, retrieve
 	buckets = [0]+random.sample(range(1,NUM_BUCKETS),NUM_BUCKETS-1)
 	#buckets = [0,5,4,2,1,3]	
-	bucket = 6
+	bucket = 0
 	retrieve = 'i'
 	return render_template("index.html")
 
