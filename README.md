@@ -5,4 +5,4 @@ How to run setup -
 2) All subject info in GUI/static/Data/subjects.csv
 3) Subject experiment data in GUI/static/Data/S{id}
 
-*NOT UP TO DATE*
+*README NOT UP TO DATE*
