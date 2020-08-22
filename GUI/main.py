@@ -100,7 +100,7 @@ def traininfo():
 	global sub_id
 	playcount = request.form['playcount']
 	timespent = request.form['timespent']
-
+	print('time: ',timespent)
 	with open('static/Data/S{}/train.csv'.format(sub_id),'a+') as fp:
 		fp.write('{},{}\n'.format(playcount,timespent))
 
